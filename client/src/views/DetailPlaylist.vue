@@ -45,13 +45,11 @@
         </div>
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <router-link to="/"><i class="fa-solid fa-arrow-left"></i></router-link>
-            <h6 class="border-bottom pb-2 mb-0 bold">All Surah</h6>
+            <h6 class="border-bottom pb-2 mb-0 bold">{{playlist.nama}}</h6>
             <!-- <h5>{{surats}}</h5> -->
-              <div v>
-                <div class="d-flex text-muted pt-3" v-for="(surat, index) in surats" :key="surat.id">
-                  <strong class="bd-placeholder-img flex-shrink-0 me-3 rounded mt-0.75"   ><text x="50%" y="50%" fill="#007bff" dy=".3em">{{index+1}}</text></strong>
-
-                  
+              <div v-for="(surat, index) in surats" :key="surat.id">
+                <div class="d-flex text-muted pt-3" v-if="playlist.surats[index]">
+                  <strong class="bd-placeholder-img flex-shrink-0 me-3 rounded mt-0.75" ><text x="50%" y="50%" fill="#007bff" dy=".3em">{{index+1}}</text></strong>
                   <!-- v-for="playlist in playlists" :key="playlist.id" -->
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100" >  
                         <div class="d-flex justify-content-between">
@@ -114,18 +112,8 @@ export default {
     data(){
       return{
         playlist:{},
-        surats:null
+        surats:[]
       }
-    },
-    computed:{
-      availableSurat(){
-        const result = []
-        for (let i = 0; i < 37; i++) {
-            result.push(this.surats[i])
-          
-        }
-        return result;
-      },
     },
     mounted(){
       axios.get('http://localhost:8082/playlist/'+this.$route.params.id).then((res)=>{
@@ -135,6 +123,11 @@ export default {
       axios.get('http://localhost:8082/read').then((res)=>{
         this.setSurat(res.data)
       })
+    },
+    computed:{
+      async availableSurat(){
+        return this.surats;
+      },
     },
     methods:{
       setPlaylist(data){
