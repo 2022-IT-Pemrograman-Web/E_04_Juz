@@ -64,15 +64,14 @@
                             <source :src="surat.audio" type="audio/mpeg">
                           </audio>
                           <div>
-                            <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Read</button>
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <button class="btn btn-primary" type="button"  data-bs-toggle="modal" :data-bs-target="'#s'+index">Read</button>
+                            <div class="modal fade" :id="'s'+index" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
                                       <!-- <h5>{{surat.ayats}}</h5> -->
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        <h1>{{surat.nama}}{{}}</h1>
                                     </div>
                                     <div class="modal-body">
                                       <div v-for="(ayat, index) in surat.ayats" :key="index">
