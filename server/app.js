@@ -71,27 +71,36 @@ app.get("/read/:id", async (req, res) => {
     res.send(error);
   }
 });
-
+// app.put("/playlist", async (req, res) => {
+//   const id = req.body.id;
+//   const userRef = await db.collection("playlist").doc(id).update({
+//     surats: req.body.surats,
+//   });
+//   res.send(userRef);
+// });
 //update data
-app.post("/update", async (req, res) => {
-  try {
-    const id = req.body.id;
-    const newContent = "Main dota2 5 jam";
-    // yang dimasukin di jsonnya id documentnya
-    const userRef = await db.collection("jus30").doc(id).update({
-      content: newContent,
-    });
-    res.send(response);
-  } catch (error) {
-    res.send(error);
-  }
-});
+// app.post("/update", async (req, res) => {
+//   try {
+//     const id = req.body.id;
+//     const newContent = "Main dota2 5 jam";
+//     // yang dimasukin di jsonnya id documentnya
+//     const userRef = await db.collection("jus30").doc(id).update({
+//       content: newContent,
+//     });
+//     res.send(response);
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
 
 //delete data
 app.delete("/delete/:id", async (req, res) => {
   try {
     //req.params.id itu id yg dimasukin diroutenya
-    const response = await db.collection("playlist").doc(req.params.id).delete();
+    const response = await db
+      .collection("playlist")
+      .doc(req.params.id)
+      .delete();
     res.send(response);
   } catch (error) {
     res.send(error);

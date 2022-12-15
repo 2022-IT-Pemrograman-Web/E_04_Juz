@@ -11,23 +11,32 @@
         </div>
         <!-- /modal/ -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel" >Add Surah</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-header mh-3">
+                    <!-- <label for="message-text" class="col-form-label">Surah</label> -->
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="search ... " aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+
                 <div class="modal-body" >
                     <form>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Surah</label>
+                        <!-- <label for="message-text" class="col-form-label">Surah</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
                             <input type="text" class="form-control" placeholder="search ... " aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
+                        </div> -->
                         <div class="form-check form-switch" v-for="(surat, index) in surats" :key="surat.id">
                             <div>
-                              <input class="form-check-input" value="5"  type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
+                              <input class="form-check-input" value="5"  type="checkbox" role="switch" @click="addSurat" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
                               <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
                             </div>
                             <hr>
@@ -38,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
+                    <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                 </div>
                 </div>
             </div>
@@ -123,6 +132,7 @@ export default {
       axios.get('http://localhost:8082/read').then((res)=>{
         this.setSurat(res.data)
       })
+
     },
     computed:{
       async availableSurat(){
@@ -135,6 +145,12 @@ export default {
       },
       setSurat(data){
         this.surats = data;
+      },
+      async addSurat(){
+        // axios.put('http://localhost:8082/playlist',{
+        //   surats:this.playlist.surats
+        // })
+        console.log("Halo papa zola");
       }
     }
 }
