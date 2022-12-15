@@ -67,7 +67,7 @@
                 <!-- v-for="playlist in playlists" :key="playlist.id" -->
                   <div class="pb-3 mb-0 small lh-sm border-bottom w-100"> 
                       <div class="d-flex justify-content-between">
-                        <strong class="text-gray-dark" style="margin-top:7px">{{play.nama}} {{play.id}}</strong>
+                        <strong class="text-gray-dark" style="margin-top:7px">{{play.nama}}</strong>
                         <div>
                             <router-link class="btn btn-primary" :to="'/playlist/'+play.id" >Open</router-link>
                             <button class="btn btn-danger" style="margin-left:3px" @click="deletePlaylist(play.id)">Delete</button>

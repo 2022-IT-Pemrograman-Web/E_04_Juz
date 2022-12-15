@@ -36,7 +36,7 @@
                         </div> -->
                         <div class="form-check form-switch" v-for="(surat, index) in surats" :key="surat.id">
                             <div>
-                              <input class="form-check-input" value="5"  type="checkbox" role="switch" @click="addSurat" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
+                              <input class="form-check-input" value="5"  type="checkbox" role="switch" @click="addSurat(playlist.id)" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
                               <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
                             </div>
                             <hr>
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                              <button class="btn btn-danger" style="margin-left:3px" @click="deletePlaylist(this.id)">Delete</button>
+                              <button class="btn btn-danger" style="margin-left:3px" @click="deleteSurat(index, playlist.id)">Delete</button>
                           </div>
                         <!-- <router-link to="/" class="btn btn-primary">Buka</router-link> -->
                         </div>
@@ -146,11 +146,18 @@ export default {
       setSurat(data){
         this.surats = data;
       },
-      async addSurat(){
-        // axios.put('http://localhost:8082/playlist',{
-        //   surats:this.playlist.surats
-        // })
+      async addSurat(playlist){
+        axios.put('http://localhost:8082/playlists/' + playlist,{
+          surats:this.playlist.surats
+        })
         console.log("Halo papa zola");
+      },
+      async deleteSurat(index, playlist){
+        const pl = await fetch("http://localhost:8082/update/" + playlist +"/"+ index, {
+        method: 'PUT',
+        }).then (res => res.json())
+        .then(res => console.log(res))
+        console.log(playlist, index)
       }
     }
 }
