@@ -25,12 +25,16 @@ app.post("/create", async (req, res) => {
   try {
     console.log(req.body);
     //const id = req.body.email;
-    const playlist = {
+    // const playlist = {
+    //   id: req.body.id,
+    //   nama: req.body.nama,
+    //   surats: req.body.surats,
+    // };
+    const response = db.collection("playlist").doc(req.body.id).set({
       id: req.body.id,
       nama: req.body.nama,
       surats: req.body.surats,
-    };
-    const response = db.collection("playlist").add(playlist);
+    });
     res.send(response);
   } catch (error) {
     res.send(error);
@@ -87,7 +91,7 @@ app.post("/update", async (req, res) => {
 app.delete("/delete/:id", async (req, res) => {
   try {
     //req.params.id itu id yg dimasukin diroutenya
-    const response = await db.collection("jus30").doc(req.params.id).delete();
+    const response = await db.collection("playlist").doc(req.params.id).delete();
     res.send(response);
   } catch (error) {
     res.send(error);
