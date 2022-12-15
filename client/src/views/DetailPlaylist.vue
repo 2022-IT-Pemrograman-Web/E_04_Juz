@@ -10,14 +10,14 @@
             </div>
         </div>
         <!-- /modal/ -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Surah</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel" >Add Surah</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                     <form>
                     <div class="mb-3">
                         <label for="message-text" class="col-form-label">Surah</label>
@@ -46,29 +46,48 @@
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <router-link to="/"><i class="fa-solid fa-arrow-left"></i></router-link>
             <h6 class="border-bottom pb-2 mb-0 bold">All Surah</h6>
+            <!-- <h5>{{surats}}</h5> -->
               <div v>
-                <div class="d-flex text-muted pt-3">
-                  <strong class="bd-placeholder-img flex-shrink-0 me-3 rounded mt-0.75"   ><text x="50%" y="50%" fill="#007bff" dy=".3em">1</text></strong>
+                <div class="d-flex text-muted pt-3" v-for="(surat, index) in surats" :key="surat.id">
+                  <strong class="bd-placeholder-img flex-shrink-0 me-3 rounded mt-0.75"   ><text x="50%" y="50%" fill="#007bff" dy=".3em">{{index+1}}</text></strong>
 
                   
                   <!-- v-for="playlist in playlists" :key="playlist.id" -->
-                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100"> 
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100" >  
                         <div class="d-flex justify-content-between">
-                          <strong class="text-gray-dark" style="margin-top:7px">{{playlist.nama}}</strong>
+                          <strong class="text-gray-dark" style="margin-top:7px">{{surat.nama}}</strong>
+                          <!-- <div v-for="(ayat,i) in surat.ayats" :key="i">
+                            <h5>{{ayat.ar}} - {{i+1}}</h5>
+                          </div> -->
+                          <!-- <span>{{surat.ayats}}</span> -->
                           <audio controls>
-                            <source src="http://ia802609.us.archive.org/13/items/quraninindonesia/002AlBaqarah.mp3" type="audio/mpeg">
+                            <source :src="surat.audio" type="audio/mpeg">
                           </audio>
                           <div>
                             <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Read</button>
                             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
+                                      <!-- <h5>{{surat.ayats}}</h5> -->
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h1>{{surat.nama}}{{}}</h1>
                                     </div>
                                     <div class="modal-body">
-
+                                      <div v-for="(ayat, index) in surat.ayats" :key="index">
+                                        <div class="pisah">
+                                          <div class="number">
+                                            <p>{{index+1}} </p>
+                                            <p>{{ayat.ar}}</p>
+                                          </div>
+                                          <div class="">
+                                            <p>{{ayat.id}}</p>
+                                          </div>
+                                        </div>
+                                        <hr>
+                                      </div>
+                           
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -98,6 +117,16 @@ export default {
         playlist:{},
         surats:null
       }
+    },
+    computed:{
+      availableSurat(){
+        const result = []
+        for (let i = 0; i < 37; i++) {
+            result.push(this.surats[i])
+          
+        }
+        return result;
+      },
     },
     mounted(){
       axios.get('http://localhost:8082/playlist/'+this.$route.params.id).then((res)=>{
@@ -233,4 +262,12 @@ body {
     display: flex;
     justify-content: space-between;
 }
+.number{
+  display: flex;
+  justify-content: space-between;
+}
+/* .arab{
+  display: flex;
+  justify-content: space-between;
+} */
 </style>

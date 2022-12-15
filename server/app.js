@@ -46,6 +46,8 @@ app.get("/read", async (req, res) => {
       responseArr.push(doc.data());
     });
     res.send(responseArr);
+    console.log(responseArr);
+    console.log("responseArr");
   } catch (error) {
     res.send(error);
   }
