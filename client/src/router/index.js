@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Playlist from "../views/MyPlaylist.vue";
 
 const routes = [
   // {
@@ -7,12 +6,6 @@ const routes = [
   //   name: "home",
   //   component: Playlist,
   // },
-  {
-    path: "/edit/:id",
-    name: "edit",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/EditPlaylist.vue"),
-  },
   {
     path: "/",
     name: "home",
