@@ -34,9 +34,9 @@
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
                             <input type="text" class="form-control" placeholder="search ... " aria-label="Username" aria-describedby="basic-addon1">
                         </div> -->
-                        <div class="form-check form-switch" v-for="(surat, index) in surats" :key="surat.id">
+                        <div class="form-check form-switch" v-for="(surat, index) in surats2" :key="surat.id">
                             <div>
-                              <input class="form-check-input" value="5"  type="checkbox" role="switch" @click="addSurat(playlist.id)" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
+                              <input class="form-check-input" value="5"  type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
                               <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
                             </div>
                             <hr>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+                    <button type="button" class="btn btn-primary" @click="updateSurat(playlist.id)">Send message</button>
                 </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <h6 class="border-bottom pb-2 mb-0 bold">{{playlist.nama}}</h6>
             <!-- <h5>{{surats}}</h5> -->
               <div v-for="(surat, index) in surats" :key="surat.id">
-                <div class="d-flex text-muted pt-3" v-if="playlist.surats[index]">
+                <div class="d-flex text-muted pt-3" >
                   <strong class="bd-placeholder-img flex-shrink-0 me-3 rounded mt-0.75" ><text x="50%" y="50%" fill="#007bff" dy=".3em">{{index+1}}</text></strong>
                   <!-- v-for="playlist in playlists" :key="playlist.id" -->
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100" >  
@@ -101,13 +101,14 @@
                                     </div>
                                 </div>
                             </div>
-                              <button class="btn btn-danger" style="margin-left:3px" @click="deleteSurat(index, playlist.id)">Delete</button>
+                              <button class="btn btn-danger" style="margin-left:3px" @click="deleteSurat(playlist.id, surat.nomor)">Delete</button>
                           </div>
                         <!-- <router-link to="/" class="btn btn-primary">Buka</router-link> -->
                         </div>
                         <!-- <span class="d-block" style="margin-top:-20px">@username</span>  -->
                     </div>
                 </div>
+                <!-- <span v-else hidden>{{index--}}</span> -->
               </div>
             <small class="d-block text-end mt-3">
             </small>
@@ -117,26 +118,40 @@
 
 <script>
 import axios from 'axios';
+
+
 export default {
     data(){
       return{
         playlist:{},
-        surats:[]
+        surats:[],
+        surats2:[],
+        idx:0,
       }
     },
-    mounted(){
+    async mounted(){
       axios.get('http://localhost:8082/playlist/'+this.$route.params.id).then((res)=>{
         this.setPlaylist(res.data[0]);
         console.log(res.data[0]);
       })
       axios.get('http://localhost:8082/read').then((res)=>{
         this.setSurat(res.data)
+        this.setSurat2(res.data)
       })
-
+      // this.availableSurat;
     },
     computed:{
       async availableSurat(){
-        return this.surats;
+        const myBank=[];
+        for (let i = 0; i < this.surats.length; i++) {
+          if(this.playlist.surats[i]===true){
+            myBank.push(this.surats[i])
+          }          
+        }
+        console.log("This is" + myBank.length);
+        // this.idx =  myBank.length;
+
+        return myBank;
       },
     },
     methods:{
@@ -144,21 +159,41 @@ export default {
         this.playlist = data;
       },
       setSurat(data){
-        this.surats = data;
+        let myBank = [];
+        for (let i = 0; i < this.playlist.surats.length; i++) {
+          if(this.playlist.surats[i]===true){
+            myBank.push(data[i])
+          }          
+        }
+        this.surats = myBank;
       },
-      async addSurat(playlist){
-        axios.put('http://localhost:8082/playlists/' + playlist,{
+      setSurat2(data){
+        this.surats2 = data;
+      },
+      deleteSurat(playlistId, index){
+        axios.put('http://localhost:8082/delete/'+playlistId+'/'+index),{
+          index
+        }
+      },
+      // async addSurat(){
+      //   // axios.put('http://localhost:8082/playlist',{
+      //   //   surats:this.playlist.surats
+      //   // })
+      //   console.log("Halo papa zola");
+      // },
+      updateSurat(playlistId){
+        axios.put('http://localhost:8082/update/'+playlistId,{
           surats:this.playlist.surats
+        }).then(()=>{
+          this.$toast.success('Surat Added.', {
+              type: "success",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+          })
         })
-        console.log("Halo papa zola");
-      },
-      async deleteSurat(index, playlist){
-        const pl = await fetch("http://localhost:8082/update/" + playlist +"/"+ index, {
-        method: 'PUT',
-        }).then (res => res.json())
-        .then(res => console.log(res))
-        console.log(playlist, index)
       }
+      
     }
 }
 </script>

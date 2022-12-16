@@ -40,6 +40,7 @@
                                 >
                             </div>
                             <div class="form-check form-switch" v-for="(surat, index) in surats" :key="surat.id">
+                                
                                 <div>
                                   <input class="form-check-input" value="5"  type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
                                   <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
