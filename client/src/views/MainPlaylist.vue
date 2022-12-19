@@ -43,7 +43,7 @@
                                 
                                 <div>
                                   <input class="form-check-input" value="5"  type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
-                                  <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
+                                  <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}}</label>
                                 </div>
                                 <hr>
                             </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="addPlaylist">Add</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="addPlaylist">Add</button>
                 </div>
                 </div>
             </div>
@@ -145,6 +145,8 @@ export default {
             position: "top-right",
             duration: 3000,
             dismissible: true,
+            onclick:()=>{window.location.reload();},
+            onDismiss:()=>{window.location.reload();}
         })
       })
     },
@@ -152,7 +154,17 @@ export default {
       const pl = await fetch("http://localhost:8082/delete/" + playlistId, {
         method: 'DELETE',
       }).then (res => res.json())
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res)
+            this.$toast.error('Surat Deleted.', {
+            type: "error",
+            position: "top-right",
+            duration: 3000,
+            dismissible: true,
+            onclick:()=>{window.location.reload();},
+            onDismiss:()=>{window.location.reload();}
+        })  
+      })
       console.log(playlistId)
     },
   
