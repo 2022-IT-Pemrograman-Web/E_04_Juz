@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm" >
-            <img class="me-3" src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
+            <img class="me-3" src="https://i.postimg.cc/6Qgs7146/pngaaa-com-358164.png" alt="" width="52" height="42">
             <div class="lh-1 container" >
                 <div class="top">
                     <h1 class="h6 mb-0 text-white lh-1 bold vertical-center" style="margin-top: 10px;">Amma</h1>
