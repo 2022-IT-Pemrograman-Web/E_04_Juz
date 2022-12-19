@@ -37,7 +37,7 @@
                         <div class="form-check form-switch" v-for="(surat, index) in surats2" :key="surat.id">
                             <div>
                               <input class="form-check-input" value="5"  type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="playlist.surats[index]">
-                              <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}} - {{surat.nomor}}</label>
+                              <label class="form-check-label" for="flexSwitchCheckDefault">{{surat.nama}}</label>
                             </div>
                             <hr>
                         </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="updateSurat(playlist.id)">Send message</button>
+                    <button type="button" class="btn btn-primary" @click="updateSurat(playlist.id)">Add Surat</button>
                 </div>
                 </div>
             </div>
