@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="updateSurat(playlist.id)">Add Surat</button>
+                    <button type="button" class="btn btn-primary" @click="updateSurat(playlist.id)">Send message</button>
                 </div>
                 </div>
             </div>
@@ -171,9 +171,16 @@ export default {
         this.surats2 = data;
       },
       deleteSurat(playlistId, index){
-        axios.put('http://localhost:8082/delete/'+playlistId+'/'+index),{
-          index
-        }
+        axios.put('http://localhost:8082/delete/'+playlistId+'/'+index).then(()=>{
+            this.$toast.error('Surat Deleted.', {
+              type: "error",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+              onclick:()=>{window.location.reload();},
+              onDismiss:()=>{window.location.reload();}
+          })
+        })
       },
       // async addSurat(){
       //   // axios.put('http://localhost:8082/playlist',{
@@ -185,12 +192,15 @@ export default {
         axios.put('http://localhost:8082/update/'+playlistId,{
           surats:this.playlist.surats
         }).then(()=>{
-          this.$toast.success('Surat Added.', {
-              type: "success",
+          this.$toast.success('Playlist Edited.', {
+            type: "success",
               position: "top-right",
               duration: 3000,
               dismissible: true,
+              onclick:()=>{window.location.reload();},
+              onDismiss:()=>{window.location.reload();}
           })
+
         })
       }
       
